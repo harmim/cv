@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dominik Harmim — Principal AI Engineer</title>
+  <meta name="description" content="Dominik Harmim — Principal AI Engineer & Team Lead at Oracle NetSuite AI. Building practical, scalable AI solutions for real-world business." />
+  <meta name="author" content="Dominik Harmim" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Dominik Harmim — Principal AI Engineer" />
+  <meta property="og:description" content="Principal AI Engineer & Team Lead at Oracle NetSuite AI. Building scalable AI solutions for real-world business." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.harmim.cz" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230b0d11'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-size='14' font-weight='bold' fill='%2363b3ed'>DH</text></svg>" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --bg:          #0b0d11;
+      --bg-card:     #13161d;
+      --bg-hover:    #1a1e28;
+      --border:      rgba(255,255,255,0.07);
+      --border-accent: rgba(99,179,237,0.35);
+
+      --text-primary:   #eef0f6;
+      --text-secondary: #8a90a2;
+      --text-muted:     #555c72;
+
+      --accent:      #63b3ed;   /* cool blue */
+      --accent-warm: #f6ad55;   /* amber highlight */
+      --accent-glow: rgba(99,179,237,0.12);
+
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+
+      --radius-sm:  6px;
+      --radius:     12px;
+      --radius-lg:  20px;
+
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow:     0 4px 32px rgba(0,0,0,0.5);
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color var(--transition), opacity var(--transition);
+    }
+    a:hover { color: #90cdf4; }
+
+    img { display: block; max-width: 100%; }
+
+    /* ============================================================
+       BACKGROUND GRID + GLOW
+    ============================================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,179,237,0.08) 0%, transparent 70%);
+      top: -200px; right: -200px;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    section { padding: 96px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(11,13,17,0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links li::before,
+    .nav-links li::after { display: none; content: none; }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      letter-spacing: 0;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .nav-links li::before,
+    .nav-links li::after {
+      display: none;
+      content: none;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 2px;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 50%; right: 50%;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: left var(--transition), right var(--transition);
+    }
+    .nav-links a.active {
+      color: var(--text-primary);
+    }
+    .nav-links a.active::after {
+      left: 0; right: 0;
+    }
+    /* hide underline in mobile menu */
+    @media (max-width: 1024px) {
+      .nav-links a::after { display: none; }
+    }
+
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: 1px solid var(--border-accent);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      background: none;
+      font-family: var(--font-body);
+      transition: border-color var(--transition), color var(--transition),
+                  background var(--transition), transform var(--transition);
+    }
+    .btn-print:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      color: var(--text-primary);
+      width: 36px;
+      height: 36px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .nav-toggle .bar {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      position: absolute;
+      left: 7px;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+                  opacity   0.25s ease,
+                  top       0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .nav-toggle .bar:nth-child(1) { top: 10px; }
+    .nav-toggle .bar:nth-child(2) { top: 17px; }
+    .nav-toggle .bar:nth-child(3) { top: 24px; }
+    .nav-toggle.open .bar:nth-child(1) { top: 17px; transform: rotate(45deg); }
+    .nav-toggle.open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-toggle.open .bar:nth-child(3) { top: 17px; transform: rotate(-45deg); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      padding: 160px 0 96px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.35s forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--accent);
+      color: #0b0d11;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+      transition: background var(--transition), transform var(--transition);
+    }
+    .btn-primary:hover {
+      background: #90cdf4;
+      color: #0b0d11;
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: 1px solid var(--border-accent);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Avatar */
+    .hero-avatar {
+      opacity: 0;
+      animation: fadeIn 0.8s 0.3s forwards;
+    }
+
+    .avatar-ring {
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--accent) 0%, transparent 60%);
+      position: relative;
+    }
+
+    .avatar-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--accent);
+      overflow: hidden;
+    }
+
+    .avatar-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    /* Stats bar */
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.6s 0.65s forwards;
+    }
+
+    .stat-item { }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ============================================================
+       SECTION HEADERS
+    ============================================================ */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 48px;
+    }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .about-text p { color: var(--text-secondary); margin-bottom: 20px; }
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .about-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      transition: border-color var(--transition), color var(--transition), background var(--transition), transform var(--transition);
+    }
+    .contact-link:hover {
+      border-color: var(--border-accent);
+      color: var(--text-primary);
+      background: var(--bg-hover);
+      transform: translateX(4px);
+    }
+
+    .contact-link .icon {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .contact-link .link-text {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       EXPERIENCE TIMELINE
+    ============================================================ */
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 48px;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -33px; top: 8px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--accent);
+      transition: background var(--transition);
+    }
+    .timeline-item:hover::before {
+      background: var(--accent);
+    }
+
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .timeline-card:hover {
+      border-color: var(--border-accent);
+      transform: translateX(4px);
+      box-shadow: var(--shadow);
+    }
+
+    .timeline-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .timeline-location {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .timeline-role {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .timeline-company {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .timeline-company-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .timeline-company-logo {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      border-radius: 3px;
+      opacity: 0.85;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .timeline-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* Badge for current role */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .badge-current {
+      background: rgba(99,179,237,0.12);
+      color: var(--accent);
+      border: 1px solid rgba(99,179,237,0.3);
+    }
+
+    .badge-current::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    /* ============================================================
+       EDUCATION
+    ============================================================ */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .edu-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+    }
+
+    .edu-degree {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
+    .edu-school {
+      font-size: 0.875rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .edu-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .edu-detail {
+      font-size: 0.825rem;
+      color: var(--text-secondary);
+    }
+
+    /* ============================================================
+       SKILLS
+    ============================================================ */
+    .skills-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-group {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: border-color var(--transition);
+    }
+    .skill-group:hover { border-color: var(--border-accent); }
+
+    .skill-group-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .skill-tag:hover {
+      border-color: rgba(99,179,237,0.4);
+      color: var(--text-primary);
+    }
+
+    /* ============================================================
+       PUBLICATIONS & PROJECTS
+    ============================================================ */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .pub-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .pub-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+
+    .pub-card-type {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent-warm);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .pub-card-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      line-height: 1.3;
+      color: var(--text-primary);
+    }
+
+    .pub-card-venue {
+      font-size: 0.825rem;
+      color: var(--text-secondary);
+    }
+
+    .pub-card-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .pub-card-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .pub-link {
+      font-size: 0.8rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .pub-link:hover { color: #90cdf4; }
+
+    /* ============================================================
+       AWARDS
+    ============================================================ */
+    .awards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .award-item {
+      display: flex;
+      align-items: start;
+      gap: 16px;
+      padding: 20px 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: border-color var(--transition);
+    }
+    .award-item:hover { border-color: var(--border-accent); }
+
+    .award-icon {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      background: rgba(246,173,85,0.1);
+      border: 1px solid rgba(246,173,85,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .award-content { flex: 1; }
+
+    .award-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .award-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CERTIFICATIONS
+    ============================================================ */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .cert-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: border-color var(--transition);
+    }
+    .cert-card:hover { border-color: var(--border-accent); }
+
+    .cert-icon {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: var(--accent-glow);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    .cert-name { font-size: 0.875rem; color: var(--text-primary); }
+    .cert-issuer { font-size: 0.775rem; color: var(--text-muted); }
+
+    /* ============================================================
+       LANGUAGES
+    ============================================================ */
+    .lang-grid {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .lang-card {
+      flex: 1;
+      min-width: 160px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .lang-name {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+
+    .lang-level {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .lang-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .lang-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .lang-dot.active { background: var(--accent); }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .footer-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .footer-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* Scroll-reveal utility */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      section { padding: 64px 0; }
+
+      .hero-layout {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-avatar {
+        order: -1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .hero-cta { justify-content: center; }
+      .hero-tagline { margin: 0 auto 40px; }
+
+      .hero-stats {
+        justify-content: center;
+        gap: 32px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 60px; left: 0; right: 0;
+        background: rgba(11,13,17,0.97);
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; text-align: center; }
+      .nav-links a { display: block; padding: 14px; }
+
+      .nav-toggle { display: block; }
+
+      .avatar-ring { width: 140px; height: 140px; }
+
+      .cards-grid { grid-template-columns: 1fr; }
+
+      .lang-grid { flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-stats { flex-direction: column; gap: 20px; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav>
+    <div class="nav-inner">
+      <span class="nav-logo">harmim.cz</span>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#publications">Research</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#awards">Honors</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-layout">
+        <div>
+          <p class="hero-eyebrow">Principal AI Engineer → Software Development Manager</p>
+          <h1 class="hero-name">Dominik<br /><em>Harmim</em></h1>
+          <p class="hero-tagline">
+            Engineering leader transitioning into management at Oracle NetSuite AI.
+            Building and leading AI teams that deliver practical, scalable solutions for real-world business.
+          </p>
+          <div class="hero-cta">
+            <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#97;&#114;&#109;&#105;&#109;&#54;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" class="btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+              Get in touch
+            </a>
+            <button class="btn-print" onclick="window.print()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Save as PDF
+            </button>
+            <a href="https://www.linkedin.com/in/dominik-harmim" target="_blank" rel="noopener" class="btn-ghost">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://github.com/harmim" target="_blank" rel="noopener" class="btn-ghost">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              GitHub
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-number">10+</div>
+              <div class="stat-label">Years coding</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">2+</div>
+              <div class="stat-label">Years at Oracle</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">5+</div>
+              <div class="stat-label">Publications</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">MBA</div>
+              <div class="stat-label">In progress</div>
+            </div>
+          </div>
+
+          <!-- Management journey banner -->
+          <div style="margin-top:28px;padding:16px 20px;background:linear-gradient(135deg,rgba(99,179,237,0.08),rgba(246,173,85,0.06));border:1px solid rgba(99,179,237,0.2);border-radius:var(--radius-sm);display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp 0.6s 0.75s forwards;">
+            <span style="font-size:1.3rem;">🚀</span>
+            <div>
+              <div style="font-size:0.85rem;font-weight:500;color:var(--text-primary);">On the path to Software Development Manager</div>
+              <div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;">Team leadership at Oracle · MBA studies · Management coursework</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-avatar">
+          <div class="avatar-ring">
+            <div class="avatar-inner"><img src="data:image/jpeg;base64,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" alt="Dominik Harmim" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT
+  ============================================================ -->
+  <section id="about">
+    <div class="container">
+      <p class="section-label reveal">About</p>
+      <h2 class="section-title reveal">Bringing AI closer<br />to customers</h2>
+
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            I'm a Principal AI Engineer and Team Lead at Oracle NetSuite AI, based in Brno, Czechia —
+            and I'm actively transitioning into a <strong style="color:var(--text-primary)">Software Development Manager</strong> role.
+            My focus is growing from hands-on technical leadership toward building, mentoring, and scaling high-performing engineering teams.
+          </p>
+          <p>
+            I'm currently pursuing an <strong style="color:var(--text-primary)">MBA</strong> (Brno University of Technology &amp; University of St. Francis),
+            with coursework focused on business management, organizational leadership, and strategy — skills I'm applying directly
+            as I take on broader people and product responsibility at Oracle NetSuite.
+          </p>
+          <p>
+            My technical foundation spans formal software verification research at VeriFIT (FIT BUT),
+            an internship at Amazon Web Services in the Kernel &amp; OS Security team,
+            and six years of e-commerce engineering at PeckaDesign.
+            I believe the best engineering managers are those who deeply understand both the craft and the people behind it.
+          </p>
+        </div>
+        <div class="about-links reveal">
+          <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#97;&#114;&#109;&#105;&#109;&#54;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" class="contact-link">
+            <span class="icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+            </span>
+            <span class="link-text">harmim6&#64;gmail.com</span>
+          </a>
+          <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#111;&#109;&#105;&#110;&#105;&#107;&#64;&#104;&#97;&#114;&#109;&#105;&#109;&#46;&#99;&#122;" class="contact-link">
+            <span class="icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+            </span>
+            <span class="link-text">dominik&#64;harmim.cz</span>
+          </a>
+          <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#111;&#109;&#105;&#110;&#105;&#107;&#46;&#104;&#97;&#114;&#109;&#105;&#109;&#64;&#111;&#114;&#97;&#99;&#108;&#101;&#46;&#99;&#111;&#109;" class="contact-link">
+            <span class="icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+            </span>
+            <span class="link-text">dominik.harmim&#64;oracle.com</span>
+          </a>
+          <a href="tel:+420773001653" class="contact-link">
+            <span class="icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <span class="link-text">+420 773 001 653</span>
+          </a>
+          <a href="https://www.linkedin.com/in/dominik-harmim" target="_blank" rel="noopener" class="contact-link">
+            <span class="icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </span>
+            <span class="link-text">linkedin.com/in/dominik-harmim</span>
+          </a>
+          <a href="https://github.com/harmim" target="_blank" rel="noopener" class="contact-link">
+            <span class="icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </span>
+            <span class="link-text">github.com/harmim</span>
+          </a>
+          <a href="https://www.harmim.cz" class="contact-link">
+            <span class="icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </span>
+            <span class="link-text">www.harmim.cz</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPERIENCE
+  ============================================================ -->
+  <section id="experience">
+    <div class="container">
+      <p class="section-label reveal">Career</p>
+      <h2 class="section-title reveal">Experience</h2>
+
+      <div class="timeline">
+
+        <!-- Oracle - Principal AI Engineer TL -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-date">Dec 2025 — Present</span>
+              <span class="timeline-location">📍 Brno, Czechia</span>
+              <span class="badge badge-current">Current</span>
+            </div>
+            <div class="timeline-role">Principal AI Engineer — Team Lead</div>
+            <div class="timeline-company-row">
+              <img class="timeline-company-logo" src="https://www.netsuite.com/portal/assets/ico/favicon.ico" alt="Oracle" />
+              <div class="timeline-company">Oracle NetSuite AI</div>
+            </div>
+            <p class="timeline-desc">
+              Leading a cross-functional AI team — responsible for hiring, mentoring, roadmap definition, and technical direction.
+              Managing the full delivery lifecycle of AI features within Oracle NetSuite's product ecosystem,
+              while actively growing into a <em>Software Development Manager</em> role.
+              Bridging engineering rigor with product strategy to ship AI that genuinely helps business customers.
+            </p>
+          </div>
+        </div>
+
+        <!-- Oracle - Principal SWE -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-date">Sep 2024 — Nov 2025</span>
+              <span class="timeline-location">📍 Brno, Czechia</span>
+            </div>
+            <div class="timeline-role">Principal Software Engineer</div>
+            <div class="timeline-company-row">
+              <img class="timeline-company-logo" src="https://www.netsuite.com/portal/assets/ico/favicon.ico" alt="Oracle" />
+              <div class="timeline-company">Oracle NetSuite AI</div>
+            </div>
+            <p class="timeline-desc">
+              Designed and shipped AI-driven features at scale within NetSuite's platform. Established engineering standards and best practices for the AI team.
+            </p>
+          </div>
+        </div>
+
+        <!-- Oracle - Senior SWE -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-date">Jan 2024 — Aug 2024</span>
+              <span class="timeline-location">📍 Brno, Czechia</span>
+            </div>
+            <div class="timeline-role">Senior Software Engineer</div>
+            <div class="timeline-company-row">
+              <img class="timeline-company-logo" src="https://www.netsuite.com/portal/assets/ico/favicon.ico" alt="Oracle" />
+              <div class="timeline-company">Oracle NetSuite AI</div>
+            </div>
+            <p class="timeline-desc">
+              Contributed to core AI capabilities integrated into Oracle NetSuite's ERP suite, with a focus on scalable backend services.
+            </p>
+          </div>
+        </div>
+
+        <!-- SDA Trainer -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-date">Jan 2025 — Aug 2025</span>
+              <span class="timeline-location">📍 Brno, Czechia</span>
+            </div>
+            <div class="timeline-role">Trainer</div>
+            <div class="timeline-company">Software Development Academy</div>
+            <p class="timeline-desc">
+              Delivered professional IT courses in Data Science, AI Engineering, and Python for students transitioning into technology roles.
+            </p>
+          </div>
+        </div>
+
+        <!-- Amazon -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-date">Oct 2022 — Apr 2023</span>
+              <span class="timeline-location">📍 Dresden, Germany</span>
+            </div>
+            <div class="timeline-role">Software Development Engineer Intern</div>
+            <div class="timeline-company-row">
+              <img class="timeline-company-logo" src="https://aws.amazon.com/favicon.ico" alt="AWS" />
+              <div class="timeline-company">Amazon Web Services (AWS)</div>
+            </div>
+            <p class="timeline-desc">
+              Worked in the Kernel and Operating Systems Security team, contributing to low-level security tooling within AWS infrastructure.
+            </p>
+          </div>
+        </div>
+
+        <!-- VeriFIT -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-date">Feb 2019 — Sep 2023</span>
+              <span class="timeline-location">📍 Brno, Czechia</span>
+            </div>
+            <div class="timeline-role">Research Assistant</div>
+            <div class="timeline-company-row">
+              <img class="timeline-company-logo" src="https://www.fit.vut.cz/favicon.ico" alt="FIT BUT" />
+              <div class="timeline-company">Faculty of IT, Brno University of Technology — VeriFIT Group</div>
+            </div>
+            <p class="timeline-desc">
+              Research in automated analysis and program verification. Developed <em>Atomer</em>, a static analyser for atomicity violations as a plugin for Facebook Infer,
+              resulting in multiple publications and award-winning thesis work.
+            </p>
+          </div>
+        </div>
+
+        <!-- PeckaDesign -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-date">Jul 2015 — Jul 2021</span>
+              <span class="timeline-location">📍 Brno, Czechia</span>
+            </div>
+            <div class="timeline-role">PHP Developer</div>
+            <div class="timeline-company-row">
+              <img class="timeline-company-logo" src="https://www.peckadesign.cz/favicon.ico" alt="PeckaDesign" />
+              <div class="timeline-company">PeckaDesign</div>
+            </div>
+            <p class="timeline-desc">
+              Full-stack development of large-scale e-commerce systems over six years, building a strong foundation in web engineering practices.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EDUCATION
+  ============================================================ -->
+  <section id="education">
+    <div class="container">
+      <p class="section-label reveal">Academia</p>
+      <h2 class="section-title reveal">Education</h2>
+
+      <div class="edu-grid">
+
+        <div class="edu-card reveal" style="border-color: rgba(99,179,237,0.25);">
+          <div class="edu-degree" style="display:flex;align-items:center;gap:10px;">
+            Master of Business Administration (MBA)
+            <span class="badge badge-current" style="font-size:0.65rem;">Ongoing</span>
+          </div>
+          <div class="edu-school">Brno University of Technology &amp; University of St. Francis</div>
+          <div class="edu-meta">2025 — Present · Brno, CZ / Joliet, IL</div>
+          <div class="edu-detail">
+            Faculty of Business and Management · College of Business &amp; Health Administration.<br />
+            <span style="color:var(--accent);font-size:0.8rem;">Focused on management, strategy &amp; organizational leadership.</span>
+          </div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-degree">Doctor's Degree (Ph.D.) <em style="font-size:0.8em;color:var(--text-muted)">(discontinued)</em></div>
+          <div class="edu-school">Brno University of Technology</div>
+          <div class="edu-meta">2021 — 2023 · Brno, Czechia</div>
+          <div class="edu-detail">Faculty of Information Technology · Information Technology</div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-degree">Master's Degree (Ing.)</div>
+          <div class="edu-school">Brno University of Technology</div>
+          <div class="edu-meta">2019 — 2021 · Brno, Czechia</div>
+          <div class="edu-detail">
+            IT &amp; Artificial Intelligence · <span style="color:var(--accent)">Software Verification and Testing</span>
+          </div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-degree">Bachelor's Degree (Bc.)</div>
+          <div class="edu-school">Brno University of Technology</div>
+          <div class="edu-meta">2016 — 2019 · Brno, Czechia</div>
+          <div class="edu-detail">Faculty of Information Technology · Information Technology</div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-degree">Bachelor's Degree — Erasmus+</div>
+          <div class="edu-school">Bangor University</div>
+          <div class="edu-meta">2018 · Bangor, Wales, UK</div>
+          <div class="edu-detail">School of Computer Science · One-semester exchange</div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-degree">Secondary School (A-Levels)</div>
+          <div class="edu-school">Secondary Technical School Brno, Purkyňova</div>
+          <div class="edu-meta">2012 — 2016 · Brno, Czechia</div>
+          <div class="edu-detail">Information Technology · Programming and Databases</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PUBLICATIONS & RESEARCH
+  ============================================================ -->
+  <section id="publications">
+    <div class="container">
+      <p class="section-label reveal">Research</p>
+      <h2 class="section-title reveal">Publications</h2>
+
+      <div class="cards-grid">
+
+        <div class="pub-card reveal">
+          <div class="pub-card-type">Conference Paper</div>
+          <div class="pub-card-title">Static Deadlock Detection in Low-Level C Code</div>
+          <div class="pub-card-venue">Proceedings of EUROCAST'22 (Springer)</div>
+          <div class="pub-card-meta">February 2023 · Las Palmas de Gran Canaria, Spain</div>
+          <div class="pub-card-links">
+            <a href="https://arxiv.org/abs/2207.01948" target="_blank" rel="noopener" class="pub-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              arXiv
+            </a>
+            <a href="https://link.springer.com/chapter/10.1007/978-3-031-25312-6_31" target="_blank" rel="noopener" class="pub-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Springer
+            </a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal">
+          <div class="pub-card-type">Master's Thesis</div>
+          <div class="pub-card-title">Advanced Static Analysis of Atomicity in Concurrent Programs through Facebook Infer</div>
+          <div class="pub-card-venue">FIT BUT — Dean's Award &amp; IT SPY Top 10</div>
+          <div class="pub-card-meta">May 2021 · Brno, Czechia</div>
+          <div class="pub-card-links">
+            <a href="https://www.fit.vut.cz/study/thesis/24185" target="_blank" rel="noopener" class="pub-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Full text
+            </a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal">
+          <div class="pub-card-type">Conference Paper</div>
+          <div class="pub-card-title">Advanced Static Analysis of Atomicity in Concurrent Programs through Facebook Infer</div>
+          <div class="pub-card-venue">Excel@FIT 2021 — Expert Committee Award &amp; Award of Jiří Kunovský</div>
+          <div class="pub-card-meta">April 2021 · Brno, Czechia</div>
+          <div class="pub-card-links">
+            <a href="http://excel.fit.vutbr.cz/submissions/2021/057/57.pdf" target="_blank" rel="noopener" class="pub-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              PDF
+            </a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal">
+          <div class="pub-card-type">Bachelor's Thesis</div>
+          <div class="pub-card-title">Static Analysis Using Facebook Infer to Find Atomicity Violations</div>
+          <div class="pub-card-venue">FIT BUT — Dean's Award for Excellent Bachelor's Thesis</div>
+          <div class="pub-card-meta">May 2019 · Brno, Czechia</div>
+          <div class="pub-card-links">
+            <a href="https://www.fit.vut.cz/study/thesis/21689" target="_blank" rel="noopener" class="pub-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Full text
+            </a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal">
+          <div class="pub-card-type">Conference Paper</div>
+          <div class="pub-card-title">Scalable Static Analysis Using Facebook Infer</div>
+          <div class="pub-card-venue">Excel@FIT 2019 — Expert Committee Award &amp; Award of Jiří Kunovský</div>
+          <div class="pub-card-meta">April 2019 · Brno, Czechia</div>
+          <div class="pub-card-links">
+            <a href="http://excel.fit.vutbr.cz/submissions/2019/059/59.pdf" target="_blank" rel="noopener" class="pub-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              PDF
+            </a>
+          </div>
+        </div>
+
+        <!-- Project: Atomer -->
+        <div class="pub-card reveal">
+          <div class="pub-card-type">Open Source Project</div>
+          <div class="pub-card-title">Atomer: Atomicity Violations Analyser</div>
+          <div class="pub-card-venue">Facebook Infer Plugin</div>
+          <div class="pub-card-meta">Sep 2018 — Sep 2023 · github.com/harmim/infer</div>
+          <div class="pub-card-links">
+            <a href="https://github.com/harmim/infer" target="_blank" rel="noopener" class="pub-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SKILLS
+  ============================================================ -->
+  <section id="skills">
+    <div class="container">
+      <p class="section-label reveal">Expertise</p>
+      <h2 class="section-title reveal">Skills &amp; Interests</h2>
+
+      <div class="skills-layout">
+
+        <div class="skill-group reveal">
+          <div class="skill-group-title">AI / ML</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Applied AI</span>
+            <span class="skill-tag">Machine Learning</span>
+            <span class="skill-tag">AI Engineering</span>
+            <span class="skill-tag">LLMs</span>
+            <span class="skill-tag">Data Science</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal">
+          <div class="skill-group-title">Formal Methods</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Static Analysis</span>
+            <span class="skill-tag">Program Verification</span>
+            <span class="skill-tag">Facebook Infer</span>
+            <span class="skill-tag">Concurrency Analysis</span>
+            <span class="skill-tag">Atomicity Verification</span>
+            <span class="skill-tag">Automated Reasoning</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal">
+          <div class="skill-group-title">Engineering</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">PHP</span>
+            <span class="skill-tag">C / C++</span>
+            <span class="skill-tag">Algorithms</span>
+            <span class="skill-tag">Software Security</span>
+            <span class="skill-tag">Web Development</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal">
+          <div class="skill-group-title">Quality &amp; Testing</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Automated Testing</span>
+            <span class="skill-tag">ISTQB CTFL</span>
+            <span class="skill-tag">QA</span>
+            <span class="skill-tag">Software Reliability</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal">
+          <div class="skill-group-title">Networking</div>
+          <div class="skill-tags">
+            <span class="skill-tag">CCNA</span>
+            <span class="skill-tag">Network Fundamentals</span>
+            <span class="skill-tag">Routing &amp; Switching</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal">
+          <div class="skill-group-title">Engineering Leadership</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Team Lead → SDM</span>
+            <span class="skill-tag">Hiring &amp; Mentoring</span>
+            <span class="skill-tag">Roadmap Planning</span>
+            <span class="skill-tag">Technical Strategy</span>
+            <span class="skill-tag">Cross-Functional Delivery</span>
+            <span class="skill-tag">MBA (ongoing)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       AWARDS
+  ============================================================ -->
+  <section id="awards">
+    <div class="container">
+      <p class="section-label reveal">Recognition</p>
+      <h2 class="section-title reveal">Honors &amp; Awards</h2>
+
+      <div class="awards-list">
+
+        <div class="award-item reveal">
+          <div class="award-icon">🏆</div>
+          <div class="award-content">
+            <div class="award-title">Brno Ph.D. Talent 2021 — Scholarship Beneficiary</div>
+            <div class="award-meta">JCMM · January 2022 · Brno, Czechia</div>
+          </div>
+        </div>
+
+        <div class="award-item reveal">
+          <div class="award-icon">🥇</div>
+          <div class="award-content">
+            <div class="award-title">IT SPY — One of the Top 10 MSc Theses of 2021 at FIT BUT</div>
+            <div class="award-meta">Czech and Slovak ACM Chapter · September 2021 · Brno, Czechia</div>
+          </div>
+        </div>
+
+        <div class="award-item reveal">
+          <div class="award-icon">🎓</div>
+          <div class="award-content">
+            <div class="award-title">Dean's Award for Excellent Master's Thesis</div>
+            <div class="award-meta">Brno University of Technology, FIT · June 2021</div>
+          </div>
+        </div>
+
+        <div class="award-item reveal">
+          <div class="award-icon">⭐</div>
+          <div class="award-content">
+            <div class="award-title">Excel@FIT 2021 — Expert Committee Award</div>
+            <div class="award-meta">Brno University of Technology, FIT · May 2021</div>
+          </div>
+        </div>
+
+        <div class="award-item reveal">
+          <div class="award-icon">🏅</div>
+          <div class="award-content">
+            <div class="award-title">Excel@FIT 2021 — The Award of Jiří Kunovský</div>
+            <div class="award-meta">Brno University of Technology, FIT · May 2021</div>
+          </div>
+        </div>
+
+        <div class="award-item reveal">
+          <div class="award-icon">🎓</div>
+          <div class="award-content">
+            <div class="award-title">Dean's Award for Excellent Bachelor's Thesis</div>
+            <div class="award-meta">Brno University of Technology, FIT · June 2019</div>
+          </div>
+        </div>
+
+        <div class="award-item reveal">
+          <div class="award-icon">⭐</div>
+          <div class="award-content">
+            <div class="award-title">Excel@FIT 2019 — Expert Committee Award</div>
+            <div class="award-meta">Brno University of Technology, FIT · April 2019</div>
+          </div>
+        </div>
+
+        <div class="award-item reveal">
+          <div class="award-icon">🏅</div>
+          <div class="award-content">
+            <div class="award-title">Excel@FIT 2019 — The Award of Jiří Kunovský</div>
+            <div class="award-meta">Brno University of Technology, FIT · April 2019</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CERTIFICATIONS + LANGUAGES
+  ============================================================ -->
+  <section id="certifications">
+    <div class="container">
+      <p class="section-label reveal">Credentials</p>
+      <h2 class="section-title reveal">Certifications &amp; Languages</h2>
+
+      <div class="certs-grid">
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">✓</div>
+          <div>
+            <div class="cert-name">Certified Tester Foundation Level (CTFL)</div>
+            <div class="cert-issuer">ISTQB® · Apr 2022 · ID: CTFL/00061/22</div>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🌐</div>
+          <div>
+            <div class="cert-name">CCNA Routing and Switching: Essentials</div>
+            <div class="cert-issuer">Cisco · Sep 2016</div>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🌐</div>
+          <div>
+            <div class="cert-name">CCNA Exploration: Network Fundamentals</div>
+            <div class="cert-issuer">Cisco · Jun 2015</div>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">🔒</div>
+          <div>
+            <div class="cert-name">PHP Applications Security</div>
+            <div class="cert-issuer">Michal Špaček · Mar 2016 · Brno</div>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">📋</div>
+          <div>
+            <div class="cert-name">Europass — English Level B2</div>
+            <div class="cert-issuer">National Europass Centre CZ · Jul 2016</div>
+          </div>
+        </div>
+
+        <div class="cert-card reveal">
+          <div class="cert-icon">📐</div>
+          <div>
+            <div class="cert-name">AutoCAD 3D</div>
+            <div class="cert-issuer">Autodesk · Jan 2014 · ID: 15710060F2</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="lang-grid" style="margin-top:48px;">
+        <div class="lang-card reveal">
+          <div class="lang-name">Czech</div>
+          <div class="lang-level">Native</div>
+          <div class="lang-dots">
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+          </div>
+        </div>
+        <div class="lang-card reveal">
+          <div class="lang-name">Slovak</div>
+          <div class="lang-level">Full Professional</div>
+          <div class="lang-dots">
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+            <div class="lang-dot"></div>
+          </div>
+        </div>
+        <div class="lang-card reveal">
+          <div class="lang-name">English</div>
+          <div class="lang-level">Professional Working</div>
+          <div class="lang-dots">
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+            <div class="lang-dot active"></div>
+            <div class="lang-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-name">Dominik Harmim</div>
+      <p class="footer-note">
+          Principal AI Engineer · Engineering Leader · Brno, Czechia<br />
+          <a href="https://www.harmim.cz">harmim.cz</a> &nbsp;·&nbsp;
+          <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#97;&#114;&#109;&#105;&#109;&#54;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">harmim6&#64;gmail.com</a> &nbsp;·&nbsp;
+          <a href="https://github.com/harmim" target="_blank" rel="noopener">github.com/harmim</a>
+        </p>
+      <p class="footer-note" style="margin-top:12px; color: var(--text-muted)">
+        &copy; <span id="year"></span> Dominik Harmim. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+    <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    var navToggle  = document.getElementById('navToggle');
+    var navLinks   = document.getElementById('navLinks');
+    var navOverlay = document.getElementById('navOverlay');
+
+    function closeNav() {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      if (navOverlay) navOverlay.classList.remove('open');
+    }
+
+    navToggle.addEventListener('click', function() {
+      var open = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open', open);
+      if (navOverlay) navOverlay.classList.toggle('open', open);
+    });
+    if (navOverlay) navOverlay.addEventListener('click', closeNav);
+    navLinks.querySelectorAll('a').forEach(function(l) { l.addEventListener('click', closeNav); });
+
+    var revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var ro = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var siblings = Array.from(entry.target.parentElement.querySelectorAll('.reveal:not(.visible)'));
+            var i = siblings.indexOf(entry.target);
+            setTimeout(function() { entry.target.classList.add('visible'); }, Math.min(i * 60, 300));
+            ro.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach(function(el) { ro.observe(el); });
+    } else {
+      revealEls.forEach(function(el) { el.classList.add('visible'); });
+    }
+
+    var sections   = document.querySelectorAll('section[id]');
+    var navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+    if ('IntersectionObserver' in window) {
+      var so = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            navAnchors.forEach(function(a) {
+              a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+            });
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px' });
+      sections.forEach(function(s) { so.observe(s); });
+    }
+
+    var btt = document.getElementById('backToTop');
+    if (btt) {
+      window.addEventListener('scroll', function() {
+        btt.classList.toggle('visible', window.scrollY > 400);
+      }, { passive: true });
+      btt.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    }
+
+    // Active nav underline
+    var sections   = document.querySelectorAll('section[id]');
+    var navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+    if ('IntersectionObserver' in window) {
+      var so = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            navAnchors.forEach(function(a) {
+              a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+            });
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px' });
+      sections.forEach(function(s) { so.observe(s); });
+    }
+  </script>
+</body>
+</html>

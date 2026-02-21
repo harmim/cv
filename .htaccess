@@ -15,11 +15,6 @@ DirectoryIndex index.html
 	RewriteCond %{REQUEST_FILENAME} -f
 	RewriteRule (^|/)\. - [F,L]
 
-	# .well-known/...
-	RewriteCond %{REQUEST_FILENAME} -f [OR]
-	RewriteCond %{REQUEST_FILENAME} -d
-	RewriteRule ^(\.well-known/.*)$ $1 [L]
-
 	# use HTTPS
 	RewriteCond %{HTTPS} off
 	RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,QSA,L]

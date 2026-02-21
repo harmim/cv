@@ -218,6 +218,59 @@
       transform: translateY(-2px);
     }
 
+    @media print {
+      /* Page setup */
+      @page {
+        size: A4;
+        margin: 1.8cm 1.5cm;
+      }
+
+      /* Kill all fixed/absolute positioning that causes blank pages */
+      body::before { display: none !important; }
+
+      nav {
+        position: relative !important;
+        height: auto !important;
+        background: none !important;
+        border: none !important;
+        backdrop-filter: none !important;
+      }
+      .nav-links {
+        position: relative !important;
+        display: none !important;
+      }
+      .nav-toggle { display: none !important; }
+
+      /* Hero overflow: hidden can generate blank page in Chrome */
+      #hero { overflow: visible !important; }
+
+      /* Prevent orphaned headings */
+      h1, h2, h3, .section-label, .section-title {
+        break-after: avoid;
+      }
+
+      /* Keep label + title + first card together */
+      .section-label + .section-title,
+      .section-title + * {
+        break-before: avoid;
+      }
+
+      /* Avoid breaks inside individual cards only — not whole sections */
+      .timeline-item, .edu-card, .pub-card,
+      .award-item, .cert-card, .skill-group {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* Reveal all hidden elements */
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .back-to-top { display: none !important; }
+    }
+
     .nav-toggle {
       display: none;
       background: none;
@@ -1021,9 +1074,49 @@
     @media (max-width: 480px) {
       .hero-stats { flex-direction: column; gap: 20px; align-items: center; }
     }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 44px;
+      height: 44px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      cursor: pointer;
+      z-index: 90;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s ease, transform 0.3s ease,
+                  border-color var(--transition), color var(--transition),
+                  background var(--transition);
+      pointer-events: none;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
   </style>
 </head>
 <body>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
 
   <!-- ============================================================
        NAVIGATION
@@ -1141,9 +1234,10 @@
             as I take on broader people and product responsibility at Oracle NetSuite.
           </p>
           <p>
-            My technical foundation spans formal software verification research at VeriFIT (FIT BUT),
-            an internship at Amazon Web Services in the Kernel &amp; OS Security team,
-            and six years of e-commerce engineering at PeckaDesign.
+            My technical foundation spans formal software verification research at VeriFIT (FIT BUT), an internship at Amazon Web Services in the
+            Kernel &amp; OS Security team, six years of e-commerce engineering at PeckaDesign, and applied AI engineering at Oracle NetSuite
+            AI — where I've spent the last two years building practical, scalable AI solutions and leading teams delivering them.
+            Alongside this, I've been deepening my understanding of AI through university studies over the past several years.
             I believe the best engineering managers are those who deeply understand both the craft and the people behind it.
           </p>
         </div>
@@ -1245,6 +1339,21 @@
           </div>
         </div>
 
+        <!-- SDA Trainer -->
+        <div class="timeline-item reveal">
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-date">Jan 2025 — Aug 2025</span>
+              <span class="timeline-location">📍 Brno, Czechia</span>
+            </div>
+            <div class="timeline-role">Trainer</div>
+            <div class="timeline-company">Software Development Academy</div>
+            <p class="timeline-desc">
+              Delivered professional IT courses in Data Science, AI Engineering, and Python for students transitioning into technology roles.
+            </p>
+          </div>
+        </div>
+
         <!-- Oracle - Senior SWE -->
         <div class="timeline-item reveal">
           <div class="timeline-card">
@@ -1259,21 +1368,6 @@
             </div>
             <p class="timeline-desc">
               Contributed to core AI capabilities integrated into Oracle NetSuite's ERP suite, with a focus on scalable backend services.
-            </p>
-          </div>
-        </div>
-
-        <!-- SDA Trainer -->
-        <div class="timeline-item reveal">
-          <div class="timeline-card">
-            <div class="timeline-meta">
-              <span class="timeline-date">Jan 2025 — Aug 2025</span>
-              <span class="timeline-location">📍 Brno, Czechia</span>
-            </div>
-            <div class="timeline-role">Trainer</div>
-            <div class="timeline-company">Software Development Academy</div>
-            <p class="timeline-desc">
-              Delivered professional IT courses in Data Science, AI Engineering, and Python for students transitioning into technology roles.
             </p>
           </div>
         </div>
@@ -1554,15 +1648,6 @@
         </div>
 
         <div class="skill-group reveal">
-          <div class="skill-group-title">Networking</div>
-          <div class="skill-tags">
-            <span class="skill-tag">CCNA</span>
-            <span class="skill-tag">Network Fundamentals</span>
-            <span class="skill-tag">Routing &amp; Switching</span>
-          </div>
-        </div>
-
-        <div class="skill-group reveal">
           <div class="skill-group-title">Engineering Leadership</div>
           <div class="skill-tags">
             <span class="skill-tag">Team Lead → SDM</span>
@@ -1775,7 +1860,7 @@
   <!-- ============================================================
        JAVASCRIPT
   ============================================================ -->
-    <script>
+  <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
     var navToggle  = document.getElementById('navToggle');
@@ -1850,6 +1935,16 @@
         });
       }, { rootMargin: '-40% 0px -55% 0px' });
       sections.forEach(function(s) { so.observe(s); });
+    }
+
+    var btt = document.getElementById('backToTop');
+    if (btt) {
+      window.addEventListener('scroll', function() {
+        btt.classList.toggle('visible', window.scrollY > 400);
+      }, { passive: true });
+      btt.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }
   </script>
 </body>
